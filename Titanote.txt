@@ -1,0 +1,11 @@
+For Age survival rate:
+	Clustered
+	Knowledge Anchoring (For 80+)
+	Weighted Curve Fit (Fix 62.5-80)
+	Curve_fit
+	
+For SibSp survival rate:
+	exclude SibSp = 0
+	use Exponential Decay Curve_fit
+	merge SibSp = 0 and the rest
+
