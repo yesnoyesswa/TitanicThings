@@ -98,7 +98,7 @@ plt.show()
 no0_SibSp_df = df[df['SibSp'] >= 1].copy()
 
 SibSp_count_dict = {}
-sr_SibSp = {}
+sr_SibSp_dict = {}
 
 for i in range(1, 4, 1):
     SibSp_data = df[(df['SibSp'] == i)]
@@ -109,15 +109,12 @@ for i in range(1, 4, 1):
     SibSp_sr = f"SibSp_{i}"
     SibSp_count = f"SibSp_{i}_count"
 
-    sr_SibSp[SibSp_sr] = rate
+    sr_SibSp_dict[SibSp_sr] = rate
     SibSp_count_dict[SibSp_count] = counts
 
-SibSp_sr_array = np.array(list(sr_SibSp.values()))
+SibSp_sr_array = np.array(list(sr_SibSp_dict.values()))
 SibSp_count_array = np.array(list(SibSp_count_dict.values()))
 SibSp_number_array = np.array([1,2,3])
-
-print(SibSp_count_array)
-print(SibSp_sr_array)
 
 def decay_model(x, A, k):
     return A * np.exp(-k * (x - 1))
@@ -151,3 +148,51 @@ plt.show()
 
 
 #Survival rate by Parch
+
+Parch_count_dict = {}
+sr_Parch_dict = {}
+
+print(df['Parch'].max())
+
+for i in range(0, 7, 1):
+    Parch_data = df[(df['Parch'] == i)]
+    counts = len(Parch_data)
+
+    rate = Parch_data['Survived'].mean()
+
+    Parch_sr = f"SibSp_{i}"
+    Parch_count = f"SibSp_{i}_count"
+
+    sr_Parch_dict[Parch_sr] = rate
+    SibSp_count_dict[Parch_count] = counts
+
+Parch_sr_array = np.array(list(sr_Parch_dict.values()))
+Parch_count_array = np.array(list(Parch_count_dict.values()))
+
+parch_labels = list(range(0, 7))
+plt.figure(figsize=(10, 6))
+bars = plt.bar(parch_labels, Parch_sr_array, color='mediumpurple', edgecolor='black')
+
+plt.xlabel('Số lượng Cha mẹ/Con cái đi cùng (Parch)')
+plt.ylabel('Tỷ lệ sống sót')
+plt.title('Tỷ lệ sống sót dựa trên số lượng Cha mẹ/Con cái (Parch)')
+plt.ylim(0, 1) 
+plt.xticks(parch_labels)
+plt.show()
+
+
+#Survival rate by Ticket
+df['Ticket_Frequency'] = df.groupby('Ticket')['Ticket'].transform('count')
+#              Ticket  Ticket_Frequency
+# 0         A/5 21171                 1  <-- Đi 1 mình (Vé A/5 21171 xuất hiện 1 lần)
+# 1          PC 17599                 1
+# 2  STON/O2. 3101282                 1
+# 3            113803                 2  <-- Đi 2 người (Vé 113803 xuất hiện 2 lần)
+# 4            373450                 1
+# 5            330877                 1
+# 6             17463                 1
+# 7            349909                 4  <-- Đi 4 người (Vé 349909 xuất hiện 4 lần)
+# 8            347742                 3
+# 9            237736                 2
+
+print(max(df["Ticket_Frequency"]))
