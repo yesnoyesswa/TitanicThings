@@ -697,10 +697,6 @@ def main_menu():
             print("\n" + "*"*35)
             print(f"KẾT QUẢ PHÂN TÍCH TỔNG HỢP:")
             print(f"Xác suất sống sót: {prob_display:.2f}%")
-            if prob >= 0.5:
-                print("Dự đoán: >>> CÓ KHẢ NĂNG SỐNG SÓT <<<")
-            else:
-                print("Dự đoán: >>> KHÔNG SỐNG SÓT <<<")
             print("*"*35)
             
             input("\nNhấn Enter để quay lại menu chính...")
