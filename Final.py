@@ -502,3 +502,214 @@ def get_infor_overall():
     
     return data
 
+
+
+# --- MAIN ---
+
+
+def menu_per_column():
+    while True:
+        print("\n" + "-"*15 + " DỰ ĐOÁN THEO CỘT (LỌC TRỰC TIẾP) " + "-"*15)
+        print("1. Kiểm tra theo Tuổi (Age)")
+        print("2. Kiểm tra theo Anh chị em/Vợ chồng (SibSp)")
+        print("3. Kiểm tra theo Bố mẹ/Con cái (Parch)")
+        print("4. Kiểm tra theo Giá vé (Fare)")
+        print("0. Quay lại Menu chính")
+        
+        choice = input("\nChọn cột (0-4): ")
+        
+        # --- LỰA CHỌN 1: TUỔI ---
+        if choice == '1':
+            while True:
+                val_in = input("Nhập Tuổi (0-100): ").strip()
+                # Kiểm tra xem có phải là số (có thể có 1 dấu chấm thập phân)
+                if val_in.replace('.', '', 1).isdigit():
+                    val = float(val_in)
+                    if 0 <= val <= 100:
+                        res = predict_survival_age(val, age_values)
+                        print(f"==> Tỉ lệ sống sót cho người {val} tuổi: {res*100:.2f}%")
+                        break # Thoát vòng lặp nhập liệu khi hợp lệ
+                    else:
+                        print("X Lỗi: Vui lòng nhập tuổi trong khoảng 0-100.")
+                else:
+                    print("X Lỗi: Định dạng không hợp lệ, hãy nhập số.")
+
+        # --- LỰA CHỌN 2: SIBSP ---
+        elif choice == '2':
+            while True:
+                val_in = input("Nhập số SibSp (0-8): ").strip()
+                if val_in.isdigit(): # SibSp là số nguyên
+                    val = int(val_in)
+                    if 0 <= val <= 8:
+                        res = predict_survival_sibsp(val, values_SibSp)
+                        print(f"==> Tỉ lệ sống sót khi có {val} SibSp: {res*100:.2f}%")
+                        break
+                    else:
+                        print("X Lỗi: SibSp thường từ 0 đến 8.")
+                else:
+                    print("X Lỗi: Vui lòng nhập số nguyên.")
+
+        # --- LỰA CHỌN 3: PARCH ---
+        elif choice == '3':
+            while True:
+                val_in = input("Nhập số Parch (0-6): ").strip()
+                if val_in.isdigit():
+                    val = int(val_in)
+                    if 0 <= val <= 6:
+                        res = predict_survival_parch(val, values_parch)
+                        print(f"==> Tỉ lệ sống sót khi có {val} Parch: {res*100:.2f}%")
+                        break
+                    else:
+                        print("X Lỗi: Parch thường từ 0 đến 6.")
+                else:
+                    print("X Lỗi: Vui lòng nhập số nguyên.")
+
+        # --- LỰA CHỌN 4: FARE ---
+        elif choice == '4':
+            while True:
+                val_in = input("Nhập Giá vé (0-600): ").strip()
+                if val_in.replace('.', '', 1).isdigit():
+                    val = float(val_in)
+                    if 0 <= val <= 600:
+                        res = predict_survival_fare(val, values_fare)
+                        print(f"==> Tỉ lệ sống sót với giá vé {val}$: {res*100:.2f}%")
+                        break
+                    else:
+                        print("X Lỗi: Giá vé không hợp lệ (0-600).")
+                else:
+                    print("X Lỗi: Vui lòng nhập số tiền.")
+
+        elif choice == '0':
+            break
+        else:
+            print("X Lựa chọn menu không hợp lệ!")
+
+def main_menu():
+    while True:
+        print("\n" + "="*40)
+        print("   HỆ THỐNG DỰ ĐOÁN TITANIC (OVERALL)")
+        print("="*40)
+        print("1. Dự đoán theo từng đặc tính (Column Logic)")
+        print("2. Dự đoán tổng quát (Nhập đầy đủ thông tin)")
+        print("0. Thoát")
+        print("="*40)
+        
+        main_choice = input("Chọn chức năng: ")
+        
+        if main_choice == '1':
+            menu_per_column() # Gọi hàm menu bạn đã làm ở bước trước
+            
+        elif main_choice == '2':
+            print("\n--- NHẬP THÔNG TIN CHI TIẾT ---")
+            
+            # 1. Lọc Pclass
+            while True:
+                p_in = input("- Hạng vé (1, 2, 3): ").strip()
+                if p_in in ['1', '2', '3']:
+                    pclass = float(p_in)
+                    break
+                else:
+                    print("X Lỗi: Chỉ nhập 1, 2 hoặc 3.")
+
+            # 2. Lọc Sex
+            while True:
+                s_in = input("- Giới tính (male/female): ").lower().strip()
+                if s_in in ['male', 'female']:
+                    sex = s_in
+                    break
+                else:
+                    print("X Lỗi: Vui lòng nhập đúng 'male' hoặc 'female'.")
+
+            # 3. Lọc Age
+            while True:
+                a_in = input("- Tuổi (0-100): ").strip()
+                if a_in.replace('.', '', 1).isdigit():
+                    age = float(a_in)
+                    if 0 <= age <= 100:
+                        break
+                    else:
+                        print("X Lỗi: Tuổi từ 0 đến 100.")
+                else:
+                    print("X Lỗi: Vui lòng nhập số.")
+
+            # 4. Lọc SibSp
+            while True:
+                sib_in = input("- Số anh chị em/vợ chồng đi cùng (0-8): ").strip()
+                if sib_in.isdigit():
+                    sibsp = float(sib_in)
+                    if 0 <= sibsp <= 8:
+                        break
+                    else:
+                        print("X Lỗi: Nhập trong khoảng 0-8.")
+                else:
+                    print("X Lỗi: Nhập số nguyên.")
+
+            # 5. Lọc Parch
+            while True:
+                par_in = input("- Số bố mẹ/con cái đi cùng (0-6): ").strip()
+                if par_in.isdigit():
+                    parch = float(par_in)
+                    if 0 <= parch <= 6:
+                        break
+                    else:
+                        print("X Lỗi: Nhập trong khoảng 0-6.")
+                else:
+                    print("X Lỗi: Nhập số nguyên.")
+
+            # 6. Lọc Ticket Frequency
+            while True:
+                tf_in = input("- Số người dùng chung mã vé (>= 1): ").strip()
+                if tf_in.isdigit():
+                    ticket_freq = float(tf_in)
+                    if ticket_freq >= 1:
+                        break
+                    else:
+                        print("X Lỗi: Ít nhất là 1 người.")
+                else:
+                    print("X Lỗi: Nhập số nguyên.")
+
+            # 7. Lọc Fare
+            while True:
+                f_in = input("- Giá vé (0-600): ").strip()
+                if f_in.replace('.', '', 1).isdigit():
+                    fare = float(f_in)
+                    if 0 <= fare <= 600:
+                        break
+                    else:
+                        print("X Lỗi: Giá vé từ 0 đến 600.")
+                else:
+                    print("X Lỗi: Nhập số tiền.")
+
+            # 8. Lọc Embarked
+            while True:
+                e_in = input("- Cảng lên tàu (S, C, Q): ").upper().strip()
+                if e_in in ['S', 'C', 'Q']:
+                    embarked = e_in
+                    break
+                else:
+                    print("X Lỗi: Chỉ nhập S, C hoặc Q.")
+
+            # --- SAU KHI LỌC XONG, TIẾN HÀNH DỰ ĐOÁN ---
+            prob = predict_survival(pclass, sex, age, sibsp, parch, ticket_freq, fare, embarked)
+            
+            # Hiển thị kết quả trực quan
+            prob_display = np.clip(prob, 0, 1) * 100
+            print("\n" + "*"*35)
+            print(f"KẾT QUẢ PHÂN TÍCH TỔNG HỢP:")
+            print(f"Xác suất sống sót: {prob_display:.2f}%")
+            if prob >= 0.5:
+                print("Dự đoán: >>> CÓ KHẢ NĂNG SỐNG SÓT <<<")
+            else:
+                print("Dự đoán: >>> KHÔNG SỐNG SÓT <<<")
+            print("*"*35)
+            
+            input("\nNhấn Enter để quay lại menu chính...")
+
+        elif main_choice == '0':
+            print("Đang thoát chương trình. Tạm biệt!")
+            break
+        else:
+            print("X Lựa chọn không hợp lệ!")
+
+if __name__ == "__main__":
+    main_menu()
