@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
 from scipy.optimize import curve_fit
 
@@ -504,7 +503,7 @@ def get_infor_overall():
 
 
 
-# --- MAIN ---
+# --- GIAO DIỆN CHƯƠNG TRÌNH ---
 
 
 def menu_per_column():
@@ -707,5 +706,4 @@ def main_menu():
         else:
             print("X Lựa chọn không hợp lệ!")
 
-if __name__ == "__main__":
-    main_menu()
+main_menu()
