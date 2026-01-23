@@ -396,7 +396,7 @@ for i in std_cols:
 for col, val in stats.items():
     print(f"{col}: Mean = {val['mean']}, Std = {val['std']}")
 
-#Hàm tính xác suất sống sót qua thông tin đầu vào (nếu thiếu thông tin thì trả về giá trị mặc định)
+# Hàm tính xác suất sống sót qua thông tin đầu vào (nếu thiếu thông tin thì trả về giá trị mặc định)
 def predict_survival(pclass=3, sex='male', age=28.0, sibsp=0, parch=0, 
                      ticket_freq=1, fare=14.45, embarked='S'):
     
@@ -517,7 +517,7 @@ def menu_per_column():
         
         choice = input("\nChọn cột (0-4): ")
         
-        # --- LỰA CHỌN 1: TUỔI ---
+        # --- TUỔI ---
         if choice == '1':
             while True:
                 val_in = input("Nhập Tuổi (0-100): ").strip()
@@ -533,7 +533,7 @@ def menu_per_column():
                 else:
                     print("X Lỗi: Định dạng không hợp lệ, hãy nhập số.")
 
-        # --- LỰA CHỌN 2: SIBSP ---
+        # --- SIBSP ---
         elif choice == '2':
             while True:
                 val_in = input("Nhập số SibSp (0-8): ").strip()
@@ -548,7 +548,7 @@ def menu_per_column():
                 else:
                     print("X Lỗi: Vui lòng nhập số nguyên.")
 
-        # --- LỰA CHỌN 3: PARCH ---
+        # --- PARCH ---
         elif choice == '3':
             while True:
                 val_in = input("Nhập số Parch (0-6): ").strip()
@@ -563,7 +563,7 @@ def menu_per_column():
                 else:
                     print("X Lỗi: Vui lòng nhập số nguyên.")
 
-        # --- LỰA CHỌN 4: FARE ---
+        # --- FARE ---
         elif choice == '4':
             while True:
                 val_in = input("Nhập Giá vé (0-600): ").strip()
@@ -596,12 +596,12 @@ def main_menu():
         main_choice = input("Chọn chức năng: ")
         
         if main_choice == '1':
-            menu_per_column() # Gọi hàm menu bạn đã làm ở bước trước
+            menu_per_column()
             
         elif main_choice == '2':
             print("\n--- NHẬP THÔNG TIN CHI TIẾT ---")
             
-            # 1. Lọc Pclass
+            # Lọc Pclass
             while True:
                 p_in = input("- Hạng vé (1, 2, 3): ").strip()
                 if p_in in ['1', '2', '3']:
@@ -610,7 +610,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Chỉ nhập 1, 2 hoặc 3.")
 
-            # 2. Lọc Sex
+            # Lọc Sex
             while True:
                 s_in = input("- Giới tính (male/female): ").lower().strip()
                 if s_in in ['male', 'female']:
@@ -619,7 +619,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Vui lòng nhập đúng 'male' hoặc 'female'.")
 
-            # 3. Lọc Age
+            # Lọc Age
             while True:
                 a_in = input("- Tuổi (0-100): ").strip()
                 if a_in.replace('.', '', 1).isdigit():
@@ -631,7 +631,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Vui lòng nhập số.")
 
-            # 4. Lọc SibSp
+            # Lọc SibSp
             while True:
                 sib_in = input("- Số anh chị em/vợ chồng đi cùng (0-8): ").strip()
                 if sib_in.isdigit():
@@ -643,7 +643,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Nhập số nguyên.")
 
-            # 5. Lọc Parch
+            # Lọc Parch
             while True:
                 par_in = input("- Số bố mẹ/con cái đi cùng (0-6): ").strip()
                 if par_in.isdigit():
@@ -655,7 +655,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Nhập số nguyên.")
 
-            # 6. Lọc Ticket Frequency
+            # Lọc Ticket Frequency
             while True:
                 tf_in = input("- Số người dùng chung mã vé (>= 1): ").strip()
                 if tf_in.isdigit():
@@ -667,7 +667,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Nhập số nguyên.")
 
-            # 7. Lọc Fare
+            # Lọc Fare
             while True:
                 f_in = input("- Giá vé (0-600): ").strip()
                 if f_in.replace('.', '', 1).isdigit():
@@ -679,7 +679,7 @@ def main_menu():
                 else:
                     print("X Lỗi: Nhập số tiền.")
 
-            # 8. Lọc Embarked
+            # Lọc Embarked
             while True:
                 e_in = input("- Cảng lên tàu (S, C, Q): ").upper().strip()
                 if e_in in ['S', 'C', 'Q']:
@@ -688,10 +688,9 @@ def main_menu():
                 else:
                     print("X Lỗi: Chỉ nhập S, C hoặc Q.")
 
-            # --- SAU KHI LỌC XONG, TIẾN HÀNH DỰ ĐOÁN ---
+            # --- DỰ ĐOÁN ---
             prob = predict_survival(pclass, sex, age, sibsp, parch, ticket_freq, fare, embarked)
             
-            # Hiển thị kết quả trực quan
             prob_display = np.clip(prob, 0, 1) * 100
             print("\n" + "*"*35)
             print(f"KẾT QUẢ PHÂN TÍCH TỔNG HỢP:")
